@@ -1,153 +1,186 @@
-class StateMachine {
-
-    states;
-    transitions;
-    initialState;
-    currentState;
-
-    constructor(initialState){
+"use strict";
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
+exports.__esModule = true;
+exports.State = exports.Transition = exports.StateMachine = void 0;
+var StateMachine = /** @class */ (function () {
+    function StateMachine() {
+        this.states = [];
+        this.transitions = [];
+        this.initialState = "";
+        this.currentState = "";
+    }
+    StateMachine.prototype.start = function (initialState) {
         this.states = [];
         this.transitions = [];
         this.initialState = initialState;
         this.currentState = initialState;
-
-    }
-
-    states(states) {
+    };
+    StateMachine.prototype.stop = function () {
+        this.currentState = this.initialState;
+    };
+    StateMachine.prototype.setStates = function (states) {
         this.states = states;
-        return this;
-    }
-
-    addState(state){
-        let states = [state, ...this.states];
+    };
+    StateMachine.prototype.addState = function (state) {
+        var states = __spreadArray([state], this.states, true);
         this.states = states;
-        return this;
-    }
-
-    transitions(transitions){
+    };
+    StateMachine.prototype.setTransitions = function (transitions) {
         this.transitions = transitions;
-        return this;
-    }
-
-    addTransition(transition){
-        let transitions = [transition, ...this.transitions];
+    };
+    StateMachine.prototype.addTransition = function (transition) {
+        var transitions = __spreadArray([transition], this.transitions, true);
         this.transitions = transitions;
-        return this;
-    }
-
-    currentState(){
+    };
+    StateMachine.prototype.getCurrentState = function () {
         return this.currentState;
-    }
-
-    updateCurrentState(currentState){
+    };
+    StateMachine.prototype.updateCurrentState = function (currentState) {
         this.currentState = currentState;
-    }
-
-    transitionTo(trigger){
-        let transition = this.findTransition(trigger);
-
-        if(!transition){
-            console.log("Transition not defined");
+    };
+    StateMachine.prototype.transitionTo = function (trigger) {
+        var transition = this.findTransition(trigger);
+        if (!transition) {
+            console.log("______Transition not defined_______");
             // error state
             return;
         }
-
-        if (!this.possibleTransitions().includes(trigger)){
-            console.log("Transition not allowed");
+        if (!this.possibleTransitions().includes(trigger)) {
+            console.log("________Transition not allowed________ ");
             return;
         }
-
-        this.currentState = transition.toStates;
-        return this;
-
-    }
-
-    canTransitionTo(trigger){
-        let transition = this.findTransition(trigger);
+        this.currentState = transition.toState.stateName;
+        return;
+    };
+    StateMachine.prototype.canTransitionTo = function (trigger) {
+        var transition = this.findTransition(trigger);
         return transition && this.possibleTransitions().includes(trigger);
-    }
-
-    possibleTransitions(){
-
-        let possibleTransitions = this.transitions.filter(function(transition) {
-            let fromStates = transition.fromStates;
-            return fromStates.filter((fromState) => fromState.stateName == this.currentState())
+    };
+    StateMachine.prototype.possibleTransitions = function () {
+        var cs = this.currentState;
+        var possibleTransitions = this.transitions.filter(function (transition) {
+            var fromStates = transition.fromStates;
+            return fromStates.filter(function (fromState) { return fromState.stateName == cs; })[0];
         });
-
-        return possibleTransitions.map((transition) => transition.trigger);
-    }
-
-    findTransition(trigger){
-        return this.transitions.filter((transition) => transition.trigger == trigger);
-    }
-
-
-
-}
-
-class Transition {
-
-    trigger;
-    fromStates;
-    toState;
-
-
-    constructor(trigger, fromStates, toState){
+        return possibleTransitions.map(function (transition) { return transition.trigger; });
+    };
+    StateMachine.prototype.findTransition = function (trigger) {
+        return this.transitions.filter(function (transition) { return transition.trigger == trigger; })[0];
+    };
+    return StateMachine;
+}());
+exports.StateMachine = StateMachine;
+var Transition = /** @class */ (function () {
+    function Transition(trigger, fromStates, toState) {
         this.trigger = trigger;
         this.fromStates = fromStates;
         this.toState = toState;
     }
-
-    addFromState(state){
-        states = this.fromStates
-        this.fromStates = [state, ...states]
-    }
-
-    updateToState(state){
+    Transition.prototype.addFromState = function (state) {
+        var states = this.fromStates;
+        this.fromStates = __spreadArray([state], states, true);
+    };
+    Transition.prototype.updateToState = function (state) {
         this.toState = state;
-    }
-
-
-}
-
-class State {
-
-    stateName;
-
-    constructor(name){
+    };
+    return Transition;
+}());
+exports.Transition = Transition;
+var State = /** @class */ (function () {
+    function State(name) {
         this.stateName = name;
     }
-
-    updateStateName(newName){
+    State.prototype.updateStateName = function (newName) {
         this.stateName = newName;
-    }
-
-}
-
-
-
+    };
+    return State;
+}());
+exports.State = State;
 function testGetCurrentState() {
-
-    let video = new StateMachine("stopped");
-    let playState = new State("playing");
-    let stopState = new State("stopped");
-    let pauseState = new State("paused");
-    let states = [playState, stopState, pauseState];
-    video.states(states);
-    let playTransition = new Transition("PLAY", [stopState, pauseState], playState)
-    let stopTransition = new Transition("STOP", [playState, pauseState], stopState)
-    let pauseTransition = new Transition("PAUSE", [playState], pauseState)
-    let transitions = [
-        playTransition,
-        stopTransition,
-        pauseTransition
-    ];
-    video.transitions(transitions);
-
-    console.log("Current state", video.currentState());
+    var video = new StateMachine();
+    video.start("stopped");
+    var playState = new State("playing");
+    var stopState = new State("stopped");
+    var pauseState = new State("paused");
+    var states = [playState, stopState, pauseState];
+    video.setStates(states);
+    var playTransition = new Transition("PLAY", [stopState, pauseState], playState);
+    var stopTransition = new Transition("STOP", [playState, pauseState], stopState);
+    var pauseTransition = new Transition("PAUSE", [playState], pauseState);
+    var transitions = [playTransition, stopTransition, pauseTransition];
+    video.setTransitions(transitions);
+    console.log("Current state:    ", video.getCurrentState());
     console.log("EXPECTED state: stopped");
+    console.log("***************");
 }
-
-
+function testChangeMachineStateFromTrigger() {
+    var video = new StateMachine();
+    video.start("stopped");
+    var playState = new State("playing");
+    var stopState = new State("stopped");
+    var pauseState = new State("paused");
+    var states = [playState, stopState, pauseState];
+    video.setStates(states);
+    var playTransition = new Transition("PLAY", [stopState, pauseState], playState);
+    var stopTransition = new Transition("STOP", [playState, pauseState], stopState);
+    var pauseTransition = new Transition("PAUSE", [playState], pauseState);
+    var transitions = [playTransition, stopTransition, pauseTransition];
+    video.setTransitions(transitions);
+    console.log("************************************************");
+    video.transitionTo("PLAY");
+    console.log("TRANSITION FROM stopped TO playing");
+    console.log("Current state:    ", video.getCurrentState());
+    console.log("EXPECTED state: playing");
+    console.log("************************************************");
+    console.log("************************************************");
+    video.transitionTo("STOP");
+    console.log("TRANSITION FROM playing TO stopped");
+    console.log("Current state:    ", video.getCurrentState());
+    console.log("EXPECTED state: stopped");
+    console.log("************************************************");
+    console.log("************************************************");
+    video.transitionTo("PAUSE");
+    console.log("TRANSITION FROM stopped TO paused, NOT POSSIBLE");
+    console.log("Current state:    ", video.getCurrentState());
+    console.log("EXPECTED state: stopped");
+    console.log("************************************************");
+    console.log("************************************************");
+    video.transitionTo("PLAY");
+    console.log("TRANSITION FROM stopped TO playing");
+    console.log("Current state:    ", video.getCurrentState());
+    console.log("EXPECTED state: playing");
+    console.log("************************************************");
+}
+function testAddNewTransition() {
+    var video = new StateMachine();
+    video.start("playing");
+    var playState = new State("playing");
+    var stopState = new State("stopped");
+    var pauseState = new State("paused");
+    var states = [playState, stopState, pauseState];
+    video.setStates(states);
+    var playTransition = new Transition("PLAY", [stopState, pauseState], playState);
+    var stopTransition = new Transition("STOP", [playState, pauseState], stopState);
+    var transitions = [playTransition, stopTransition];
+    video.setTransitions(transitions);
+    var pauseTransition = new Transition("PAUSE", [playState], pauseState);
+    video.addTransition(pauseTransition);
+    console.log("************************************************");
+    video.transitionTo("PAUSE");
+    console.log("TRANSITION FROM playing TO paused");
+    console.log("Current state:    ", video.getCurrentState());
+    console.log("EXPECTED state: paused");
+    console.log("************************************************");
+}
 console.log("TESTS");
-testGetCurrentState();
+// testGetCurrentState();
+// testChangeMachineStateFromTrigger();
+testAddNewTransition();
