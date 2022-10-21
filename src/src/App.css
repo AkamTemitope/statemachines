@@ -1,0 +1,182 @@
+* {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.App{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.container{
+  display: flex;
+  height: 92vh;
+}
+
+.rightContainer{
+  /* background-color: blue; */
+  display: flex;
+  flex-direction: column;
+  height: inherit;
+  width: 40%;
+  border: 2px solid #5bc0de;
+}
+
+.reset{
+  align-self: flex-end;
+  padding: .8rem;
+  margin: 15px 10px auto auto;
+  color: white;
+  font-size: medium;
+  background-color: red;
+  border: 2px solid red;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.states{
+  display: flex;
+  height: 25vh;
+  flex-direction: column;
+  margin: 1rem 2rem;
+  overflow-y: auto;
+}
+
+.rightContainer > h2{
+  align-self: center;
+  margin-top: 1rem;
+}
+.states > li{
+  width: 100%;
+  margin: .6rem auto;
+  font-weight: 500;
+  font-size: larger;
+}
+
+.transitions{
+  display: flex;
+  max-height: 50vh;
+  margin: 2rem 1rem;
+  flex-direction: column;
+  align-content: space-around;
+  overflow-y: auto;
+}
+
+.transition{
+  display: flex;
+  margin: .7rem 0;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.transition > h3, p {
+  font-size: larger;
+}
+
+.transition > p > span{
+  font-weight: 900;
+}
+
+.leftContainer{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: inherit;
+  width: 60%;
+  border: 2px solid #5bc0de;
+}
+
+.leftContainer > h2 {
+  align-self:flex-start;
+  padding: 0 1rem;
+  margin: 1rem 0;
+}
+
+.addState{
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  justify-content: center;
+}
+
+.addState > input{
+  padding: .5rem;
+  width: 70%;
+  outline: none;
+  font-size: x-large;
+  margin-right: 1.5rem;
+}
+
+.addState > button{
+  padding: .5rem 1.5rem;
+  width: 20%;
+  color: #fff;
+  font-size: x-large;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+  border-radius: .5rem ;
+  cursor: pointer;
+}
+
+.addTransition{
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  justify-content: center;
+}
+
+.addTransition > input{
+  padding: .5rem;
+  width: 50%;
+  outline: none;
+  font-size: x-large;
+  margin-right: .5rem;
+}
+
+.addTransition > select{
+  width: 30%;
+  padding: .7rem 0;
+  margin-right: .5rem;
+  font-size: larger;
+  outline: none;
+}
+
+.addTransition > button{
+  padding: .5rem 1.5rem;
+  width: 20%;
+  color: #fff;
+  font-size: x-large;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+  border-radius: .5rem ;
+  cursor: pointer;
+}
+
+.leftContainer > .viz{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: .8rem;
+  margin: auto 15px 15px auto;
+  color: white;
+  font-size: x-large;
+  background-color: #5bc0de;
+  border-color: #46b8da;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.graph{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: inherit;
+  width: 60%;
+  border: 1px solid black;
+}
+
+.graph > h2{
+  margin: 2rem auto;
+}
