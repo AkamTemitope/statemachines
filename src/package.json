@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@types/fs-extra": "^9.0.13",
+    "render-dot": "^0.0.5"
+  }
+}

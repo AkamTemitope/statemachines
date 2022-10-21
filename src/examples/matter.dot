@@ -1,0 +1,10 @@
+digraph "matter" {
+  rankdir=TB;
+  "solid";
+  "liquid";
+  "gas";
+  "solid" -> "liquid" [ label="MELT" ];
+  "liquid" -> "solid" [ label="FREEZE" ];
+  "liquid" -> "gas" [ label="VAPORIZE" ];
+  "gas" -> "liquid" [ label="CONDENSE" ];
+}

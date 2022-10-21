@@ -27,6 +27,10 @@ export class StateMachine {
         this.states = states;
     }
 
+    getStates(){
+        return this.states;
+    }
+
     addState(state: State){
         let states = [state, ...this.states];
         this.states = states;
@@ -34,6 +38,10 @@ export class StateMachine {
 
     setTransitions(transitions: Array<Transition>){
         this.transitions = transitions;
+    }
+
+    getTransitions(){
+        return this.transitions;
     }
 
     addTransition(transition: Transition){
@@ -53,16 +61,18 @@ export class StateMachine {
         let transition = this.findTransition(trigger);
 
         if(!transition){
-            console.log("______Transition not defined_______");
-            // error state
+            console.log("______"+trigger+" Transition not defined_______");
             return;
         }
 
         if (!this.possibleTransitions().includes(trigger)){
-            console.log("________Transition not allowed________ ");
+            console.log("________"+trigger+" Transition not allowed________ ");
             return;
         }
-
+        transition.onBeforeTransition();
+        transition.fromStates.find((state) => state.stateName == this.currentState)?.onLeaveState();
+        transition.toState.onEnterState();
+        transition.onAfterTransition();
         this.currentState = transition.toState.stateName;
         return;
     }
@@ -113,6 +123,13 @@ export class Transition {
         this.toState = state;
     }
 
+    onBeforeTransition(){
+        console.log("BEFORE: ", this.trigger)
+    }
+    onAfterTransition(){
+        console.log("AFTER: ", this.trigger)
+    }
+
 
 }
 
@@ -126,6 +143,12 @@ export class State {
 
     updateStateName(newName: string){
         this.stateName = newName;
+    }
+    onLeaveState(){
+        console.log("LEAVE: ", this.stateName);
+    }
+    onEnterState(){
+        console.log("ENTER: ", this.stateName);
     }
 
 }

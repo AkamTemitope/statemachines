@@ -1,0 +1,11 @@
+digraph "video" {
+  rankdir=LR;
+  "playing";
+  "stopped";
+  "paused";
+  "stopped" -> "playing" [ label="PLAY" ];
+  "paused" -> "playing" [ label="PLAY" ];
+  "playing" -> "stopped" [ label="STOP" ];
+  "paused" -> "stopped" [ label="STOP" ];
+  "playing" -> "paused" [ label="PAUSE" ];
+}
