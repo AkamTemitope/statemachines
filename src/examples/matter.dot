@@ -1,5 +1,5 @@
 digraph "matter" {
-  rankdir=TB;
+  rankdir=LR;
   "solid";
   "liquid";
   "gas";
